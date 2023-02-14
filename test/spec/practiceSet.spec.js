@@ -33,10 +33,6 @@ When(/^user scrolls down$/, async () => {
     await homePage.pageScroll();
 });
 
-// When(/^user clicks on Add to cart button available on product card$/, async () => {
-//     await homePage.addToCart();
-// });
-
 When(/^user remove the product from cart by clicking on cross icon$/, async () => {
     await cartPage.removeItemFromCart();
 });
@@ -65,6 +61,10 @@ When(/^user clicks on "Login" button$/, async () => {
 When(/^user enters valid email id and password in the fields and click on login$/, async () => {
     await loginPage.login();
 
+});
+
+When(/^user clicks on each submenu one by one available in the "Top Menu Bar"$/, async() =>{
+    await homePage.allTopMenuNavigation();
 });
 
 Then(/^validate searched product been added to cart$/, async () => {

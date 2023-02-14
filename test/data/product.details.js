@@ -6,3 +6,7 @@ module.exports.productList = {
 module.exports.cartAmount = {
   "cartTotal" : 0
 }
+
+module.exports.topMenuOptions = ["Desktops", "Laptops & Notebooks", "Components", "MP3 Players"]
+
+module.exports.nonDropdownOptions = ["Tablets", "Software", "Phones & PDAs"];

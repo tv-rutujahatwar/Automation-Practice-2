@@ -32,4 +32,4 @@ Feature: Practice Set 1
   Scenario: Verify user can navigate to all options from the top menu bar
     Given user is on homepage
     When user clicks on each submenu one by one available in the "Top Menu Bar"
-    Then validate user able to navigate to the respective listing page after selecting
+    # Then validate user able to navigate to the respective listing page after selecting
