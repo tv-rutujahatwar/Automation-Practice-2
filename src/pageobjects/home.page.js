@@ -1,7 +1,7 @@
-/**
- * main page object containing all methods, selectors and functionality
- * that is shared across all page objects
- */
+const { topMenuOptions, nonDropdownOptions } = require("../../test/data/product.details");
+const chai = require("chai");
+const expectChai = chai.expect;
+
 class HomePage {
     /**
      * Opens a sub page of the page
@@ -43,8 +43,24 @@ class HomePage {
         return $("//*[@id='top-links']/ul/li[2]/ul/li[5]/a");
     }
 
-    get _logoutText(){
+    get _logoutText() {
         return $("//*[@id='content']/h1");
+    }
+
+    _getAllTopMenuDropdown(i) {
+        return $$("//*[@class='dropdown-toggle']")[i];
+    }
+
+    _getAllTopMenuNonDropdown(i) {
+        return $(`//*[@id='menu']/div[2]/ul/li[${i}]`);
+    }
+
+    _getSeeAllOptions(i){
+        return $$("//*[@class='see-all']")[i-1];
+    }
+
+    get _optionLabel(){
+        return $(".col-sm-9>h2");
     }
 
     async searchBoxInput(productList) {
@@ -88,10 +104,31 @@ class HomePage {
         await this._logout.click();
     }
 
-    async logoutText(){
+    async logoutText() {
         await this._logoutText.waitForDisplayed();
         let logoutMessage = await this._logoutText.getText();
         return logoutMessage;
     }
-};
-module.exports = HomePage
+
+    async allTopMenuNavigation() {
+
+        for (let i = 1; i <= topMenuOptions.length; i++) {
+            await this._getAllTopMenuDropdown(i).waitForDisplayed();
+            await this._getAllTopMenuDropdown(i)
+                .moveTo()
+                .then(async () => {
+                    // browser.pause(3000);
+                    await (await this._getSeeAllOptions(i)).waitForDisplayed();
+                    await (await this._getSeeAllOptions(i)).click();
+                    expectChai(await (await this._optionLabel).getText()).to.be.equal(topMenuOptions[i-1]);
+                    await browser.pause(100);
+                });
+        }
+        for (let i=4; i<=6; i++){
+            await this._getAllTopMenuNonDropdown(i).waitForDisplayed();
+            await this._getAllTopMenuNonDropdown(i).click();
+            expectChai(await (await this._optionLabel).getText()).to.be.equal(nonDropdownOptions[i - 4]);
+        }
+    }
+}
+module.exports = HomePage;
